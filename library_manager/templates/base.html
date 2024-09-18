@@ -5,11 +5,43 @@
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Library Management System{% endblock %}</title>
+  <style>
+    .navbar {
+      display: flex;
+      position: sticky;
+      align-items: center;
+      justify-content: space-between;
+      top: 0px;
+      background-size: cover;
+      color: black;
+      padding: 10px 20px;
+    }
+
+    .nav-list {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-list li {
+      margin-right: 20px;
+    }
+
+    .nav-list li:last-child {
+      margin-right: 0;
+    }
+
+    .nav-list li a {
+      text-decoration: none;
+      color: black;
+      font-size: 18px;
+      transition: color 0.3s ease-in-out;
+    }
+</style>
 </head>
 
 <body>
-    <nav>
-        <ul>
+    <nav class="navbar">
+        <ul class="nav-list">
           <li>
             <a href="/">Home</a>
           </li>
