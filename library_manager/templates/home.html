@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
+{% load socialaccount %}
+
 {% block title %}Home{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
-<p>Hi {{ user.first_name }}!</p>
+<h2>Welcome {{ user.first_name }}!</h2>
     <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
         <button type="submit">Log Out</button>
     </form>
 {% else %}
-<p>You are not logged in</p>
-<a href="{% url 'login' %}">Log In</a>
+<button><a href="{% url 'login' %}">Log In</a></button>
+<button><a href="{% provider_login_url 'google' %}">Login with Google</a></button>
 {% endif %}
-{{ request.session.userid }}
 {% endblock %}
