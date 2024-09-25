@@ -65,6 +65,7 @@ class LibraryMembers(models.Model):
     email = models.CharField(max_length=50)
     phone = models.CharField(max_length=50)
     libraryid = models.ForeignKey(LibraryBranch, db_column='libraryid',  on_delete=models.CASCADE)
+    userid = models.ForeignKey(User, db_column='userid',  on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'members'

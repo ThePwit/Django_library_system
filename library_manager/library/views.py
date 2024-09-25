@@ -1,5 +1,6 @@
 from re import template
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 from django.views import View
 from django.views.generic import DetailView, CreateView
 from .models import LibraryAuthor, LibraryBooks
@@ -11,17 +12,14 @@ from rest_framework.views import APIView
 from .serializers import *
 
 # Create your views here.
-def book_list(request):
-    """
-    Display list of all entrys in :model:'LibraryBooks',
+def home(request):
+    #request.session.set_test_cookie()
+    #request.session['userid'] = User.id
+    #request.session.save()
     
-    books: Querying the database for available data in LibraryBooks table
+    return render(request, 'home.html')
     
-    :template: 'library/book_list.html'    
-    """
-    books = LibraryBooks.objects.all()
-    return render(request, 'library/book_list.html', {'books' : books})
-
+    
 class BookDetailView(DetailView):
     """
     Display details of requested book,
@@ -33,6 +31,7 @@ class BookDetailView(DetailView):
     model = LibraryBooks
     template_name = "library/book_details.html"
     context_object_name = "book"
+    
     
 class AddBookView(CreateView):
     """
@@ -63,22 +62,27 @@ class BookDetails(APIView):
     def get(self, request, pk):
         book = get_object_or_404(LibraryBooks, pk=pk)
         serializer = BookSerializer(book)
-        return Response({'serializer': serializer, 'book': book})
+        
+        return Response({'count': count, 'book': book})
     
     
 class BookList(APIView):
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'library/book_list.html'
     
     def get(self, request):
+        count = request.session.get('count', 0)
+        count += 1
+        request.session['count'] = count
         books = LibraryBooks.objects.all()
         serializer = BookSerializer(books, many=True)
-        return Response({'serializer': serializer, 'books': books})
+    
+        return Response({'books': books, 'count': count}, None, 'library/book_list.html')
+        
     
     def post(self, request):
         serializer = BookSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        #if serializer.is_valid():
+            #serializer.save()
+            #return Response(serializer.data, status=status.HTTP_201_CREATED)
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(template_name = 'add_book.html')

@@ -1,5 +1,6 @@
 from django.apps import AppConfig
-from django.core import signals
+#from django.core import signals
+from django.db.models import signals
 from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.contrib.auth.models import User

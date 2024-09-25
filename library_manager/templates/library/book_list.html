@@ -18,6 +18,8 @@
             <h2><a href={% url 'book_details' book.id %}>{{ book.title }}</a></h2>
         </div>
     {% endfor %}
+
+    <p>view count {{ count }}</p>
     {% endblock %}
 </body>
 </html>

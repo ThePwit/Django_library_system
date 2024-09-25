@@ -52,6 +52,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+#SESSION_COOKIE_SECURE = 'True'
+
+#SESSION_COOKIE_DOMAIN = '.example.com'
+
 ROOT_URLCONF = 'library_manager.urls'
 
 TEMPLATES = [
@@ -132,3 +138,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "home"  
 
 LOGOUT_REDIRECT_URL = "home" 
+
