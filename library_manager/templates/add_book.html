@@ -12,7 +12,7 @@
     
     {% block content %}
     {% if request.user.is_staff %}
-        <form action="/book_list/create/" method="post">
+        <form action="/books/create/" method="post">
             {% csrf_token %}
             <table>
                 {{ form.as_table }}

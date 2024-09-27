@@ -12,7 +12,7 @@
 
     {% block content %}
     
-    <button><a style="text-decoration: none; color: black;" href="/book_list/create/">Add Book</a></button>
+    <button><a style="text-decoration: none; color: black;" href="/books/create/">Add Book</a></button>
     {% for book in books %}
         <div>
             <h2><a href={% url 'book_details' book.id %}>{{ book.title }}</a></h2>
