@@ -38,7 +38,7 @@ def book_list(request):
 
 class BookListAPI(APIView):
     
-    @method_decorator(permission_required('library.api', '/login/', True ))
+    @method_decorator(permission_required('is_superuser', '/login/', True ))
     def get(self, request):
         books = LibraryBooks.objects.all()
         serializer = BookSerializer(books, many=True)
