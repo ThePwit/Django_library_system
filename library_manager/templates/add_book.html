@@ -19,6 +19,15 @@
             </table>
             <button type="submit">Save</button>
         </form>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
     {%else%}
         <h2>You are not an authorized staff member!</h2>
     {% endif %}

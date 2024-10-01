@@ -1,4 +1,6 @@
 from re import template
+from django.forms import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
@@ -71,8 +73,11 @@ class AddBookView(CreateView):
     model = LibraryBooks
     form_class = AddBook
     template_name = 'add_book.html'
-    #success_message = 'Book successfully added to library'
-    success_url = '/book_list/' 
+    success_url = '/books/'
+    
+    def form_valid(self, form: AddBook) -> HttpResponse:
+        messages.success(self.request, "Book successfully added to library!")
+        return super().form_valid(form)
      
 #def AddBookView(request):
     """
