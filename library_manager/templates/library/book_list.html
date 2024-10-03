@@ -13,12 +13,13 @@
     {% block content %}
     
     <button><a style="text-decoration: none; color: black;" href="/books/create/">Add Book</a></button>
+    <div style="display: grid; grid-template-columns: auto auto auto auto;">
     {% for book in books %}
         <div>
             <h2><a href={% url 'book_details' book.id %}>{{ book.title }}</a></h2>
         </div>
     {% endfor %}
-
+    </div>
     <p>view count {{ count }}</p>
     {% endblock %}
 </body>

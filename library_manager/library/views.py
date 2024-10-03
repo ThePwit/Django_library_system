@@ -7,20 +7,20 @@ from django.views import View
 from django.views.generic import DetailView, CreateView
 from django.contrib.auth.decorators import login_not_required, permission_required
 from django.utils.decorators import method_decorator
-from rest_framework import status
+from rest_framework import status, viewsets, permissions
 from rest_framework.views import APIView
-from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser
 from rest_framework.renderers import TemplateHTMLRenderer
 from .models import LibraryAuthor, LibraryBooks
 from .forms import AddBook, UpdateUser
-from .serializers import BookSerializer
+from .serializers import *
 
 # Create your views here.
 @login_not_required
 def home(request):
-    
-    return (request, 'home.html')
+    return render(request, 'home.html')
 
 @login_not_required
 def book_list(request):
@@ -38,14 +38,100 @@ def book_list(request):
     
     return render(request, 'library/book_list.html', {'books' : books, 'count': count})
 
-class BookListAPI(APIView):
+class BookListAPI(viewsets.ViewSet):
+    """Rest API view for superusers to maintain the collection
+
+        list(self, request): 
+            pulls all books in library and returns the serialized data
+        
+        retrieve(self, request, pk=None):
+            pulls details of book based on id specified in url
+            
+        create(self, request):
+            Adds new book to collection
+            
+        destroy(self, request, pk=None):
+            removes book from collection
+
     
-    @method_decorator(permission_required('is_superuser', '/login/', True ))
-    def get(self, request):
+    """
+    permission_classes = [IsAdminUser]
+
+    def list(self, request):
         books = LibraryBooks.objects.all()
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        book = LibraryBooks.objects.get(pk=pk)
+        serializer = BookSerializer(book)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = BookSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+    def destroy(self, request, pk=None):
+        book = LibraryBooks.objects.get(pk=pk)
+        book.delete()
+        return Response(status=204)
+
+    @action(detail=False, methods=['get'])
+    def extra_action(self, request):
+        books = LibraryBooks.objects.all()
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)
+
+class AuthorAPI(viewsets.ViewSet):
+    """Rest API view for superusers to maintain the collection
+
+        list(self, request): 
+            pulls all books in library and returns the serialized data
         
+        retrieve(self, request, pk=None):
+            pulls details of book based on id specified in url
+            
+        create(self, request):
+            Adds new book to collection
+            
+        destroy(self, request, pk=None):
+            removes book from collection
+
+    
+    """
+    permission_classes = [IsAdminUser]
+
+    def list(self, request):
+        books = LibraryAuthor.objects.all()
+        serializer = AuthorSerializer(books, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        book = LibraryAuthor.objects.get(pk=pk)
+        serializer = AuthorSerializer(book)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = AuthorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+    def destroy(self, request, pk=None):
+        book = LibraryAuthor.objects.get(pk=pk)
+        book.delete()
+        return Response(status=204)
+
+    @action(detail=False, methods=['get'])
+    def extra_action(self, request):
+        books = LibraryAuthor.objects.all()
+        serializer = AuthorSerializer(books, many=True)
+        return Response(serializer.data)
+
 
 class BookDetailView(DetailView):
     """

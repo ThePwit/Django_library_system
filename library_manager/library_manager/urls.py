@@ -24,6 +24,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    #path('', TemplateView.as_view(template_name='home.html'), name='home'), #removed because home view was added and path was added to library.urls
     path('', include('library.urls')),
 ]

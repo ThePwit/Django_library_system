@@ -9,3 +9,8 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = LibraryBooks
         fields = "__all__"
+        
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LibraryAuthor
+        fields = "__all__"
