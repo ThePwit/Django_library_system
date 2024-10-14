@@ -92,13 +92,17 @@ WSGI_APPLICATION = 'library_manager.wsgi.application'
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Library Management System',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
+        'NAME': 'librarydb',
+        'USER': 'librarysu',
+        'PASSWORD': 'Pwit@1992',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
+ALLOWED_HOSTS = ['18.222.11.193']
+
+STATIC_ROOT = "/www/Pwitbrary.com/static/"
 
 
 # Password validation
