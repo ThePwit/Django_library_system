@@ -102,7 +102,7 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['18.222.11.193']
 
-STATIC_ROOT = "/www/Pwitbrary.com/static/"
+STATIC_ROOT = "/var/www/Pwitbrary.com/static/"
 
 
 # Password validation
